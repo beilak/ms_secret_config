@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "ms-secret-config"
+version = "0.1.0"
+description = ""
+authors = ["Beilak <beylak@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.0"
+uvicorn = "^0.21.1"
+alembic = "^1.10.3"
+dependency-injector = "^4.41.0"
+pydantic = {extras = ["email"], version = "^1.10.7"}
+psycopg2-binary = "^2.9.6"
+databases = "^0.7.0"
+asyncpg = "^0.27.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
