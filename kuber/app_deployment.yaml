@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-storage
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-storage-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: user-storage-app
+    spec:
+      containers:
+        - name: user-storage
+          image: beylak/user-storage:latest
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: DB_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: user-app-secret
+                  key: DB_DSN
+            - name: LOG_TEST
+              valueFrom:
+                configMapKeyRef:
+                  name: user-app-config
+                  key: LOG_TEST
+          ports:
+            - name: user-web
+              containerPort: 8000
+          livenessProbe:
+            httpGet:
+              port: 8000
+              path: /check/health
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              port: 8000
+              path: /check/readiness
+            initialDelaySeconds: 10
+            periodSeconds: 5

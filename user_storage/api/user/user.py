@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from dependency_injector.wiring import Provide, inject
 import logging
 
@@ -38,7 +38,11 @@ async def get_user(
 ) -> UserResponse:
     """Get user"""
     logging.info(f" read user { user_id = }")
-    return await db.read_user(user_id)
+    user = await db.read_user(user_id)
+    if user:
+        return user
+    else:
+        raise HTTPException(status_code=404, detail="User not found")
 
 
 @user_router.delete(
@@ -64,7 +68,7 @@ async def delete_user(
     description="Change user",
 )
 @inject
-async def add_user(
+async def upd_user(
         user_id: int,
         request: User,
         db: UserDB = Depends(Provide[Container.db])
@@ -72,4 +76,8 @@ async def add_user(
     """Put user"""
     logging.info(f" put user { user_id = } with { request = }")
     await db.update_user(user_id, request)
-    return await db.read_user(user_id)
+    user = await db.read_user(user_id)
+    if user:
+        return user
+    else:
+        raise HTTPException(status_code=404, detail="User not found")

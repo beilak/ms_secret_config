@@ -28,7 +28,7 @@ class UserDB:
 
         return await self._conn.fetch_val(query=query, values=values)
 
-    async def read_user(self, user_id: int) -> UserResponse:
+    async def read_user(self, user_id: int) -> UserResponse | None:
         query: str = """SELECT * FROM "user" WHERE id = :user_id"""
         values: dict = dict(user_id=user_id)
         record = await self._conn.fetch_one(query, values)
@@ -42,8 +42,7 @@ class UserDB:
                 phone=record["phone"],
             )
         else:
-            # ToDo Raise Error
-            ...
+            return None
 
     async def del_user(self, user_id: int) -> None:
         query: str = """DELETE FROM "user" WHERE id = :user_id"""
@@ -70,3 +69,7 @@ class UserDB:
         )
 
         return await self._conn.execute(query=query, values=values)
+
+    async def check(self):
+        query: str = "SELECT 1;"
+        return await self._conn.execute(query=query)

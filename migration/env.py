@@ -8,7 +8,9 @@ import os
 
 
 def get_dsn() -> str:
-    return os.getenv("DB_DSN", "postgresql://user_storage:user_storage@0.0.0.0:5432/user_storage")
+    return os.getenv(
+        "DB_DSN", ""
+    )
 
 
 # this is the Alembic Config object, which provides
@@ -22,9 +24,9 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from user_storage.models.db_model import metadata
-target_metadata = metadata
-# target_metadata = None
+# from user_storage.models.db_model import metadata
+# target_metadata = metadata
+target_metadata = None
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

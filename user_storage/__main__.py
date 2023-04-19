@@ -5,13 +5,14 @@ from user_storage.api.user.user import user_router
 from user_storage.config import Settings
 from user_storage.containers import Container
 from user_storage.api.user import user
+from user_storage.api.probes import healthchecks
 
 
 async def startup() -> None:
     settings: Settings = Settings()
     container: Container = Container.create_container(settings)
     container.wire(
-        modules=[user],
+        modules=[user, healthchecks],
     )
     container.init_resources()
     setattr(API, "__container", container)

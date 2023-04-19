@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "migratedb"
+spec:
+  template:
+    metadata:
+      name: "migratedb"
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: check-db-ready
+          image: postgres:latest
+          command: [ 'sh', '-c',
+            'until pg_isready -h postgres -p 5432; 
+          do echo waiting for database; sleep 2; done;' ]
+      containers:
+        - name: migrate-job
+          image: beylak/user-storage-migrate
+          env:
+            - name: DB_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: user-app-secret
+                  key: DB_DSN
