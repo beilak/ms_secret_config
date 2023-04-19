@@ -37,11 +37,17 @@ spec:
                     secretKeyRef:
                       name: user-app-secret
                       key: DB_PASS
-              volumeMounts:
-              - name: postgresdb
-                mountPath: /var/lib/postgresql/data
-                subPath: postgres
-            volumes:
-              - name: postgresdb
-                persistentVolumeClaim:
-                  claimName: postgres-pv-claim
+
+# ToDo Explore
+#              volumeMounts:
+#              - name: pgvol
+#                mountPath: /var/lib/postgresql/data
+#                subPath: postgres
+#            volumes:
+#              - name: pgvol
+#                hostPath:
+#                  path: /mnt/data
+#            volumes:
+#              - name: pgvol
+#                persistentVolumeClaim:
+#                  claimName: postgres-pv-claim
