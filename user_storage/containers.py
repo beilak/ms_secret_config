@@ -19,9 +19,15 @@ def init(clinet_type):
 class Container(DeclarativeContainer):
     config: Configuration = Configuration()
 
+    # DB_DSN: str = f"postgresql://{config.DB_USER.required()}:{config.DB_PASS.required()}" \
+    #               f"@{config.DB_HOST.required()}:{config.DB_PORT.required()}/{config.DB.required()}"
     db: Resource[UserDB] = Resource(
         init(UserDB),
-        dsn=config.DB_DSN.required()
+        db_user=config.DB_USER.required(),
+        db_pass=config.DB_PASS.required(),
+        db_host=config.DB_HOST.required(),
+        db_port=config.DB_PORT.required(),
+        db=config.DB.required(),
     )
 
     @classmethod

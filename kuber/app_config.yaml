@@ -3,5 +3,6 @@ kind: ConfigMap
 metadata:
   name: user-app-config
 data:
-  LOG_TEST: "My_Test_value ****"
   DB: "user_storage"
+  DB_HOST: "mydb"
+  DB_PORT: "5432"

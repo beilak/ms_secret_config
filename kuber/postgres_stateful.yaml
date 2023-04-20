@@ -1,42 +1,44 @@
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-    name: postgres-statefulset
-spec:
-    serviceName: "postgres"
-    replicas: 1
-    selector:
-      matchLabels:
-        app: postgres
-    template:
-        metadata:
-            labels:
-                app: postgres
-        spec:
-            containers:
-            - name: postgres
-              image: postgres:latest
-              imagePullPolicy: "IfNotPresent"
-              ports:
-              - containerPort: 5432
-                name: postgresdb
-                protocol: TCP
-              env:
-                - name: POSTGRES_DB
-                  valueFrom:
-                    configMapKeyRef:
-                      name: user-app-config
-                      key: DB
-                - name: POSTGRES_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: user-app-secret
-                      key: DB_USER
-                - name: POSTGRES_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: user-app-secret
-                      key: DB_PASS
+# Replaced to HELM chart
+
+#apiVersion: apps/v1
+#kind: StatefulSet
+#metadata:
+#    name: postgres-statefulset
+#spec:
+#    serviceName: "postgres"
+#    replicas: 1
+#    selector:
+#      matchLabels:
+#        app: postgres
+#    template:
+#        metadata:
+#            labels:
+#                app: postgres
+#        spec:
+#            containers:
+#            - name: postgres
+#              image: postgres:latest
+#              imagePullPolicy: "IfNotPresent"
+#              ports:
+#              - containerPort: 5432
+#                name: postgresdb
+#                protocol: TCP
+#              env:
+#                - name: POSTGRES_DB
+#                  valueFrom:
+#                    configMapKeyRef:
+#                      name: user-app-config
+#                      key: DB
+#                - name: POSTGRES_USER
+#                  valueFrom:
+#                    secretKeyRef:
+#                      name: user-app-secret
+#                      key: db_user
+#                - name: POSTGRES_PASSWORD
+#                  valueFrom:
+#                    secretKeyRef:
+#                      name: user-app-secret
+#                      key: DB_PASS
 
 # ToDo Explore
 #              volumeMounts:

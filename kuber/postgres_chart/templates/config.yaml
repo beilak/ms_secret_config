@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  DB: {{ .Values.postgres_opt.postgresqlDatabase }}
+  DB_HOST: {{ .Values.postgres_opt.postgresqlDatabase }}
+  DB_PORT: {{ .Values.postgres_opt.postgresqlDatabase }}

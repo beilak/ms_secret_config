@@ -3,7 +3,16 @@ from user_storage.models.user import User, UserResponse
 
 
 class UserDB:
-    def __init__(self, dsn: str) -> None:
+    def __init__(
+            self,
+            # dsn: str,
+            db_user: str,
+            db_pass: str,
+            db_host: str,
+            db_port: int,
+            db: str,
+    ) -> None:
+        dsn = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db}"
         self._conn = Database(dsn)
 
     async def startup(self) -> None:

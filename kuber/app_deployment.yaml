@@ -19,16 +19,31 @@ spec:
           image: beylak/user-storage:latest
           imagePullPolicy: "IfNotPresent"
           env:
-            - name: DB_DSN
+            - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   name: user-app-secret
-                  key: DB_DSN
-            - name: LOG_TEST
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: user-app-secret
+                  key: DB_PASS
+            - name: DB
               valueFrom:
                 configMapKeyRef:
                   name: user-app-config
-                  key: LOG_TEST
+                  key: DB
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: user-app-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-app-config
+                  key: DB_PORT
           ports:
             - name: user-web
               containerPort: 8000
