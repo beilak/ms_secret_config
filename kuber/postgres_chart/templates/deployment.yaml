@@ -6,6 +6,7 @@ metadata:
     {{- include "postgres_chart.labels" . | nindent 4 }}
 spec:
 #  {{- if not .Values.autoscaling.enabled }}
+  serviceName: {{ include "postgres_chart.fullname" . }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
@@ -47,7 +48,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: db-secret
-                  key: db_user
+                  key: DB_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
